@@ -1,19 +1,23 @@
 import { useRef } from "react"
-// import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid'
 
-function Form() {
+function Form({ addNewItem }) {
 
   const input = useRef()
+  const form = useRef()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(input.current.value)
-    input.current.value = ''
-    // toast.success("Hello")
+    addNewItem({
+      id: uuidv4(),
+      text: input.current.value,
+      completed: false
+    })
+    form.current.reset()
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} ref={form} autoComplete="off">
       <div>
         <label
           htmlFor="first_name"
@@ -21,7 +25,7 @@ function Form() {
         >
           Add Items:
         </label>
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-2 items-center">
           <input
             type="text"
             id="first_name"
